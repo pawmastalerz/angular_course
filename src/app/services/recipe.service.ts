@@ -1,5 +1,7 @@
+import { ShoppingListService } from './shopping-list.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Recipe } from '../recipes/recipe.model';
+import { Ingredient } from '../shared/ingredient.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,20 +11,32 @@ export class RecipeService {
 
   private recipes: Recipe[] = [
     new Recipe(
-      'A test recipe',
-      'This is simply a test',
-      'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg'
+      'Schnitzel',
+      'Tasty Schnitzel',
+      'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg',
+      [
+        new Ingredient('Meat', 1),
+        new Ingredient('French fries', 20)
+      ]
     ),
     new Recipe(
-      'Another recipe',
-      'This is another test',
-      'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg'
+      'Burger',
+      'Big Fat Burger',
+      'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg',
+      [
+        new Ingredient('Bread', 2),
+        new Ingredient('Meat', 2)
+      ]
     )
   ];
 
-  constructor() {}
+  constructor(private slService: ShoppingListService) {}
 
   getRecipes() {
     return this.recipes.slice();
+  }
+
+  addIngredientsToShoppingList(ingredients: Ingredient[]) {
+    this.slService.addIngredients(ingredients);
   }
 }
